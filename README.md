@@ -115,7 +115,7 @@ Wheat Ridge CO 80033 USA
 
     ntpq -c peer -c as -c rl
 
-    ntpq -p hourglass
+    ntpq -p candleclock
 
     sudo ntpd -gdn
 
