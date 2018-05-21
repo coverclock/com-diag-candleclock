@@ -1,6 +1,6 @@
 # com-diag-candleclock
 
-Candleclock is a work in progress.
+N.B. Candleclock is a work in progress.
 
 ## Copyright
 
@@ -13,16 +13,16 @@ Licensed under the terms of the FSF GPL v2.
 ## Abstract
 
 Candleclock is my implementation of a stratum-1 NTP server based on
-a Raspberry Pi 3 with a NaviSys GR-701W GPS receiver. The GR-701W is
-pretty unique among its competitors in that it is a GPS receiver that
-emits its NMEA sentences over a USB serial connection (that's common),
-and generates a one hertz (1Hz) Pulse Per Second (1PPS) indicator by
-toggling the (simulated) model control signal Data Carrier Detect (DCD).
-1PPS is used to closely phase-lock the system clock to the GPS clock.
-I more or less followed Eric Raymond's "Stratum-1-Microserver HOWTO"
-with a few changes here and there to either customize it for my network
-or to fix a minor issue here and there (e.g. his udev rule didn't work
-for me without modification).
+a Raspberry Pi 3 B+ with a NaviSys GR-701W GPS receiver. The GR-701W
+is pretty unique among its competitors in that it is a GPS receiver
+that emits its NMEA sentences over a USB serial connection (that's
+common), and generates a one hertz (1Hz) Pulse Per Second (1PPS)
+indicator by toggling the (simulated) model control signal Data Carrier
+Detect (DCD) (not so common).  1PPS is used to closely phase-lock the
+system clock to the GPS clock.  I more or less followed Eric Raymond's
+"Stratum-1-Microserver HOWTO" with a few changes here and there to
+either customize it for my network or to fix a minor issue here and there
+(e.g. his udev rule didn't work for me without modification).
 
 ## Operation
 
@@ -101,7 +101,6 @@ Wheat Ridge CO 80033 USA
     scons \
     	timeservice=yes \
     	nmea0183=yes \
-    	prefix="/usr" \
     	fixed_port_speed=9600 \
     	fixed_stop_bits=1 \
     	pps=yes \
@@ -162,7 +161,20 @@ Wheat Ridge CO 80033 USA
     cd com-diag-hazer/Hazer
     make
 
+    sudo mkdir -p /var/log/ntpstats
+    sudo chown ntp /var/log/ntpstats
+
 ## Example
+
+    > lsb_release -a
+    No LSB modules are available.
+    Distributor ID: Raspbian
+    Description:    Raspbian GNU/Linux 9.4 (stretch)
+    Release:        9.4
+    Codename:       stretch
+
+    > uname -a
+    Linux candleclock 4.14.34-v7+ #1110 SMP Mon Apr 16 15:18:51 BST 2018 armv7l GNU/Linux
 
     > cd
     > cd src/com-diag-hazer/Hazer
@@ -187,4 +199,35 @@ Wheat Ridge CO 80033 USA
     GSV [12] sat  46 elv 38 azm 215 snr 44dBHz con GPS
     GSV [13] sat  48 elv 36 azm 220 snr 39dBHz con GPS
     GSV [14] sat  51 elv 44 azm 183 snr 32dBHz con GPS
+
+    > ntpq -c "rv 0 reftime" -c peers -c associations
+    reftime=dead9d04.c219aa53 2018-05-21T19:31:16.758Z
+         remote                                   refid      st t when poll reach   delay   offset   jitter
+    =======================================================================================================
+    *SHM(1)                                  .PPS.            0 l   12   64  377   0.0000  15.8385  10.5187
+    xSHM(0)                                  .GPS.            0 l   47   64  377   0.0000 -137.548  11.7069
+     us.pool.ntp.org                         .POOL.          16 p    -  256    0   0.0000   0.0000   0.0010
+    +horp-bsd01.horp.io                      146.186.222.14   2 u   57   64  377  54.6031  11.4205   8.5216
+    +awesome.bytestacker.com                 216.218.254.202  2 u   48   64  377  30.2116  19.7003  11.5323
+    +stratum-1.sjc02.svwh.net                .CDMA.           1 u   60   64  377  39.2161   6.2334  10.0937
+    +time.no-such-agency.net                 128.227.205.3    2 u   60   64  377  49.9095  22.9024  12.3353
+    -208.88.126.235                          128.227.205.3    2 u   62   64   33  54.1146 -40.0667  50.9546
+    +ntp2.wiktel.com                         212.215.1.157    2 u   63   64  377  55.1068  19.9537  10.3241
+    +74.120.81.219                           129.250.35.250   3 u   62   64  377  30.7050  19.3142  11.4608
+    +tick.no-such-agency.net                 162.213.2.253    2 u   61   64  377  40.4906  19.9575  12.0436
+    
+    ind assid status  conf reach auth condition  last_event cnt
+    ===========================================================
+      1 21602  961a   yes   yes  none  sys.peer    sys_peer  1
+      2 21603  9114   yes   yes  none falsetick   reachable  1
+      3 21604  8811   yes  none  none    reject    mobilize  1
+      4 21605  1414    no   yes  none candidate   reachable  1
+      5 21606  141a    no   yes  none candidate    sys_peer  1
+      6 21607  141a    no   yes  none candidate    sys_peer  1
+      7 21608  1414    no   yes  none candidate   reachable  1
+      8 21609  1314    no   yes  none   outlier   reachable  1
+      9 21610  1414    no   yes  none candidate   reachable  1
+     10 21611  1414    no   yes  none candidate   reachable  1
+     11 21612  1414    no   yes  none candidate   reachable  1
+
 
