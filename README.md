@@ -1,5 +1,7 @@
 # com-diag-candleclock
 
+Candleclock is a work in progress.
+
 ## Copyright
 
 Copyright 2018 by the Digital Aggregates Corporation, Arvada Colorado, USA.
