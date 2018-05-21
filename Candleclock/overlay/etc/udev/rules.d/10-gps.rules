@@ -1,1 +1,1 @@
-KERNEL=="ttyAMA0", SYMLINK+="gpsd0"
+KERNEL=="ttyUSB0", SYMLINK+="gpsd0"

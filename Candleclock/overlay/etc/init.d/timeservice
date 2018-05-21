@@ -13,7 +13,7 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin/:/usr/local/bin
 
 . /lib/lsb/init-functions
 
-DAEMON1=/usr/local/sbin/gpsd
+DAEMON1=/usr/sbin/gpsd
 PIDFILE1=/var/run/gpsd.pid
 DAEMON2=/usr/local/sbin/ntpd
 PIDFILE2=/var/run/ntpd.pid

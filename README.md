@@ -46,6 +46,12 @@ that it maintains the time even if Hourglass is powered off.
 
 <https://www.etsy.com/listing/501829632/navisys-gr-701w-u-blox-7-usb-pps>
 
+<http://blog.dan.drown.org/pps-over-usb/>
+
+<http://paul.chavent.free.fr/pps.html>
+
+<https://www.kernel.org/doc/Documentation/pps/pps.txt>
+
 <https://www.ntpsec.org/white-papers/stratum-1-microserver-howto/>
 
 <http://www.satsignal.eu/ntp/Raspberry-Pi-quickstart.html>
@@ -83,33 +89,35 @@ Wheat Ridge CO 80033 USA
 
 ## Notes
 
+    sudo screen /dev/gpsd0 9600 8n1
+
     sudo modprobe configs
 
+    cd
+    cd src
+    apt install git scons ncurses-dev python-dev bc
+    git clone https://git.savannah.gnu.org/git/gpsd.git
+    cd gpsd
     scons \
     	timeservice=yes \
-        magic_hat=yes \
     	nmea0183=yes \
     	prefix="/usr" \
     	fixed_port_speed=9600 \
     	fixed_stop_bits=1 \
     	pps=yes \
     	ntpshm=yes
+    scons install
 
-    ./configure \
-        --prefix=/usr \
-        --enable-all-clocks \
-        --enable-parse-clocks \
-        --enable-SHM \
-        --disable-debugging \
-        --sysconfdir=/var/lib/ntp \
-        --with-sntp=no \
-        --with-lineeditlibs=edit \
-        --without-ntpsnmpd \
-        --disable-local-libopts \
-        --enable-ntp-signd \
-        --disable-dependency-tracking \
-        --enable-ATOM \
-        --enable-linuxcaps
+    cd
+    cd src
+    apt install bison libevent-dev libcap-dev libssl-dev libreadline-dev
+    git clone https://gitlab.com/NTPsec/ntpsec.git
+    cd ntpsec
+    ./waf configure --refclock=shm
+    ./waf build
+    ./waf install
+
+    sudo adduser --home /home/ntp --shell /bin/false --uid 111 --gid 65534 --disabled-password ntp
 
     sudo /usr/sbin/gpsd -b -n -N -D 5 /dev/gps0 /dev/pps0
 
@@ -123,9 +131,11 @@ Wheat Ridge CO 80033 USA
 
     sudo raspi-config
 
+    sudo apt-get install screen
+
     sudo apt-get install i2c-tools
 
-    sudo apt-get install build-essential python-dev python-mmbus python-pip git
+    sudo apt-get install build-essential python-dev python-smbus python-pip git
     sudo pip install RPi.GPIO
     git clone https://github.com/adafruit/Adafruit_Python_CharLCD.git
     cd Adafruit_Python_CharLCD
@@ -141,5 +151,40 @@ Wheat Ridge CO 80033 USA
     # *	        peer (primary reference)
     # o	        PPS peer
 
+    cd
+    mkdir src
+    cd src
+    git clone https://github.com/coverclock/com-diag-diminuto
+    cd com-diag-diminuto/Diminuto
+    make
+    cd ../..
+    git clone https://github.com/coverclock/com-diag-hazer
+    cd com-diag-hazer/Hazer
+    make
+
 ## Example
+
+    > cd
+    > cd src/com-diag-hazer/Hazer
+    > . out/host/bin/setup
+    > gpstool -D /dev/gpsd0 -b 9600 -8 -n -1 -E -c
+    $GPGSV,4,3,14,27,28,047,30,28,36,247,41,30,49,307,36,46,38,215,44*7F\r\n
+    $GPGSV,4,3,14,27,28,047,30,28,36,247,41,30,49,307,36,46,38,215,44*7F\r\n
+    MAP 2018-05-21T16:35:22Z 39*47'39.34"N,105*09'12.07"W  5564.56' N     0.049mph PPS 1
+    GGA 39.794263,-105.153355  1696.100m   0.000*    0.043knots [11] 9 10 5 0 4
+    GSA {   8   7   9  30  51  48  27  23  28  11   5 } [11] pdop 1.75 hdop 1.05 vdop 1.40
+    GSV [01] sat   5 elv 10 azm 296 snr 19dBHz con GPS
+    GSV [02] sat   7 elv 72 azm 351 snr 43dBHz con GPS
+    GSV [03] sat   8 elv 56 azm  88 snr 35dBHz con GPS
+    GSV [04] sat   9 elv 50 azm 186 snr 41dBHz con GPS
+    GSV [05] sat  11 elv 19 azm 141 snr 29dBHz con GPS
+    GSV [06] sat  16 elv  0 azm  56 snr 15dBHz con GPS
+    GSV [07] sat  18 elv  5 azm 124 snr 20dBHz con GPS
+    GSV [08] sat  23 elv 18 azm 162 snr 41dBHz con GPS
+    GSV [09] sat  27 elv 28 azm  47 snr 31dBHz con GPS
+    GSV [10] sat  28 elv 36 azm 247 snr 41dBHz con GPS
+    GSV [11] sat  30 elv 49 azm 307 snr 36dBHz con GPS
+    GSV [12] sat  46 elv 38 azm 215 snr 44dBHz con GPS
+    GSV [13] sat  48 elv 36 azm 220 snr 39dBHz con GPS
+    GSV [14] sat  51 elv 44 azm 183 snr 32dBHz con GPS
 
