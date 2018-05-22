@@ -12,13 +12,13 @@ Licensed under the terms of the FSF GPL v2.
 
 ## Abstract
 
-Candleclock is my implementation of a stratum-1 NTP server based on
-a Raspberry Pi 3 B+ with a NaviSys GR-701W GPS receiver. The GR-701W
-is pretty unique among its competitors in that it is a GPS receiver
-that emits its NMEA sentences over a USB serial connection (that's
-common), and generates a one hertz (1Hz) Pulse Per Second (1PPS)
-indicator by toggling the (simulated) model control signal Data Carrier
-Detect (DCD) (not so common).  1PPS is used to closely phase-lock the
+Candleclock is my implementation of a stratum-1 NTP server based on a
+Raspberry Pi 3 B+ with a NaviSys GR-701W GPS receiver. The GR-701W is
+pretty unique among its competitors in that it is a GPS receiver that
+emits its NMEA sentences over a USB serial connection (that's common),
+and generates a one hertz (1Hz) Pulse Per Second (1PPS) indicator
+by toggling the (simulated) modem control signal Data Carrier Detect
+(DCD) (that's not so common).  1PPS is used to closely phase-lock the
 system clock to the GPS clock.  I more or less followed Eric Raymond's
 "Stratum-1-Microserver HOWTO" with a few changes here and there to
 either customize it for my network or to fix a minor issue here and there
