@@ -1,7 +1,5 @@
 # com-diag-candleclock
 
-N.B. Candleclock is a work in progress.
-
 ## Copyright
 
 Copyright 2018 by the Digital Aggregates Corporation, Arvada Colorado, USA.
@@ -43,6 +41,10 @@ the Python script updates the real-time hardware clock to the system
 clock, which will have been continuously synchronized via GPS and hence,
 over time, more accurate than the RTC. The RTC has a battery backup so
 that it maintains the time even if Candleclock is powered off.
+
+## Blog
+
+<https://coverclock.blogspot.com/2018/05/an-easy-home-brew-stratum-1-gps.html>
 
 ## Repositories
 
