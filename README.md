@@ -24,12 +24,14 @@ system clock to the GPS clock.  I more or less followed Eric Raymond's
 either customize it for my network or to fix a minor issue here and there
 (e.g. his udev rule didn't work for me without modification).
 
+Candleclock is based very closely on my very similar Hourglass project.
+
 ## Operation
 
 When the system boots up, the real-time hardware clock is read and the
 Linux system clock set to that time. This provides a usable system clock
 until the GPS board can establish a lock on enough satellites to compute
-a solution. The NTP daemon on Hourglass will keep the Linux system
+a solution. The NTP daemon on Candleclock will keep the Linux system
 clock closely synchronized to UTC (GPST plus leap seconds) as provided
 by the GPS daemon. The GNU library will handle the conversion from UTC
 to local time, including any necessary Daylight Saving Time conversion,
@@ -40,7 +42,21 @@ local date and time. If you press the SELECT button on the LCD board,
 the Python script updates the real-time hardware clock to the system
 clock, which will have been continuously synchronized via GPS and hence,
 over time, more accurate than the RTC. The RTC has a battery backup so
-that it maintains the time even if Hourglass is powered off.
+that it maintains the time even if Candleclock is powered off.
+
+## Repositories
+
+<https://github.com/coverclock/com-diag-candleclock>
+
+<https://git.savannah.gnu.org/git/gpsd.git>
+
+<https://gitlab.com/NTPsec/ntpsec.git>
+
+<https://github.com/adafruit/Adafruit_Python_CharLCD>
+
+<https://github.com/coverclock/com-diag-hazer>
+
+<https://github.com/coverclock/com-diag-diminuto>
 
 ## References
 
@@ -60,10 +76,6 @@ that it maintains the time even if Hourglass is powered off.
 
 <http://doc.ntp.org/4.1.0/ntpq.htm>
 
-<https://git.savannah.gnu.org/git/gpsd.git>
-
-<https://gitlab.com/NTPsec/ntpsec.git>
-
 <https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi?view=all>
 
 <http://www.elevendroids.com/2012/12/setting-up-hardware-rtc-in-raspbian/>
@@ -73,8 +85,6 @@ that it maintains the time even if Hourglass is powered off.
 <https://thepihut.com/blogs/raspberry-pi-tutorials/17209332-adding-a-real-time-clock-to-your-raspberry-pi>
 
 <https://learn.adafruit.com/adafruit-16x2-character-lcd-plus-keypad-for-raspberry-pi/overview>
-
-<https://github.com/adafruit/Adafruit_Python_CharLCD>
 
 <https://docs.python.org/2/library/time.html>
 
