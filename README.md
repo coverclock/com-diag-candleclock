@@ -54,9 +54,17 @@ that it maintains the time even if Candleclock is powered off.
 
 <https://github.com/adafruit/Adafruit_Python_CharLCD>
 
+## Related
+
 <https://github.com/coverclock/com-diag-hazer>
 
 <https://github.com/coverclock/com-diag-diminuto>
+
+<https://github.com/coverclock/com-diag-hourglass>
+
+<https://github.com/coverclock/com-diag-astrolabe>
+
+<https://github.com/coverclock/com-diag-obelisk>
 
 ## References
 
